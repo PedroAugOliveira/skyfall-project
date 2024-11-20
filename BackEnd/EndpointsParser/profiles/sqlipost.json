@@ -1,0 +1,26 @@
+{
+    "patterns" : [
+    "id",
+    "user_id",
+    "username",
+    "email",
+    "password",
+    "age",
+    "group_id",
+    "order_id",
+    "category_id",
+    "product_id",
+    "item_id",
+    "search",
+    "query",
+    "sort",
+    "filter",
+    "status",
+    "date",
+    "offset",
+    "limit",
+    "page",
+    "action",
+    "key"
+    ]
+    }

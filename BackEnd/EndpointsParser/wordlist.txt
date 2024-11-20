@@ -1,0 +1,16 @@
+login.php
+logout.php
+register.php
+reset_password.php
+forgot_password.php
+admin.php
+dashboard.php
+settings.php
+user.php
+profile.php
+upload.php
+api.php
+contact.php
+about.php
+terms.php
+privacy.php

